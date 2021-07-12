@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
      * リスト表示
      */
     fun showListFragment() {
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listContributor)
+        val adapter = ContributorAdapter(this, listContributor)
         val listFragment = ContributorListFragment()
         listFragment.listAdapter = adapter
         supportFragmentManager.commit {
