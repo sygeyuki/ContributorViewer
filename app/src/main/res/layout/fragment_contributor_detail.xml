@@ -16,34 +16,77 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/label_name"
+        android:id="@+id/detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Name:"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/detail_avator"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_avator"
+        tools:text="@tools:sample/full_names" />
 
     <TextView
-        android:id="@+id/value_name"
+        android:id="@+id/detail_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/detail_avator"
-        app:layout_constraintTop_toBottomOf="@+id/label_name" />
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_name"
+        tools:text="@tools:sample/last_names" />
 
     <Button
         android:id="@+id/to_github"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/detail_btn_label_github"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_avator"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/to_twitter"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Go to GitHub"
+        android:layout_marginEnd="16dp"
+        android:text="@string/detail_btn_label_twitter"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_avator"
+        app:layout_constraintTop_toBottomOf="@+id/to_github" />
+
+    <Button
+        android:id="@+id/to_blog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/detail_btn_label_blog"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_avator"
+        app:layout_constraintTop_toBottomOf="@+id/to_twitter" />
+
+    <ListView
+        android:id="@+id/detail_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_avator" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_login" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
