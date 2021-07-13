@@ -245,5 +245,9 @@ class ContributorDetailFragment : Fragment(){
 
             return view!!
         }
+
+        override fun isEnabled(position: Int): Boolean {
+            return false
+        }
     }
 }
