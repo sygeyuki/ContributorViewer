@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         const val START_URL = "https://api.github.com/repos/googlesamples/android-architecture-components/contributors"
         const val RESP_HTTP_SUCCESS = 1
         const val RESP_HTTP_FAILURE = 2
+
+        const val SAVE_KEY_LIST_CONTRIBUTOR = "list_contributor"
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -47,7 +49,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadContributors()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(SAVE_KEY_LIST_CONTRIBUTOR, listContributor)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val javaArray = savedInstanceState?.getParcelableArrayList<ContributorInfo>(SAVE_KEY_LIST_CONTRIBUTOR)
+        listContributor = ArrayList<ContributorInfo>(javaArray)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (::listContributor.isInitialized) {
+            Log.d(TAG, "onResume: need not download info");
+            showListFragment()
+        } else {
+            Log.d(TAG, "onResume: need to download info");
+            loadContributors()
+        }
     }
 
     /**
@@ -82,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         val listFragment = ContributorListFragment()
         listFragment.listAdapter = adapter
         supportFragmentManager.commit {
-            add(R.id.fragment, listFragment)
+            replace(R.id.fragment, listFragment)
         }
     }
 
