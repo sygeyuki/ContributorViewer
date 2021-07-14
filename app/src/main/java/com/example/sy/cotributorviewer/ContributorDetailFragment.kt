@@ -137,7 +137,10 @@ class ContributorDetailFragment : Fragment(){
             }
             binding.toBlog.visibility = View.VISIBLE
         } else {
-            binding.toBlog.visibility = View.GONE
+            if (binding.toTwitter.visibility == View.VISIBLE)
+                binding.toBlog.visibility = View.GONE
+            else
+                binding.toBlog.visibility = View.INVISIBLE
         }
         //その他情報
         val adapter = DetailItemAdapter(requireContext(), createDisplayInfoList(info))
