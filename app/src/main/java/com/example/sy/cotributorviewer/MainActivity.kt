@@ -16,7 +16,7 @@ import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ContributorListFragment.OnContributorClickListener {
     companion object {
         const val TAG = "ContributorViewer"
         const val START_URL = "https://api.github.com/repos/googlesamples/android-architecture-components/contributors"
@@ -49,6 +49,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //onRestoreInstanceStateが呼ばれる前にlistContributorを復元したい
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState)
+        }
+        if (::listContributor.isInitialized) {
+            Log.d(TAG, "onCreate: need not download info");
+            showListFragment()
+        } else {
+            Log.d(TAG, "onCreate: need to download info");
+            loadContributors()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -58,19 +70,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val javaArray = savedInstanceState?.getParcelableArrayList<ContributorInfo>(SAVE_KEY_LIST_CONTRIBUTOR)
-        listContributor = ArrayList<ContributorInfo>(javaArray)
+        if (!::listContributor.isInitialized) {
+            val javaArray = savedInstanceState?.getParcelableArrayList<ContributorInfo>(SAVE_KEY_LIST_CONTRIBUTOR)
+            listContributor = ArrayList<ContributorInfo>(javaArray)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (::listContributor.isInitialized) {
-            Log.d(TAG, "onResume: need not download info");
-            showListFragment()
-        } else {
-            Log.d(TAG, "onResume: need to download info");
-            loadContributors()
-        }
     }
 
     /**
@@ -101,12 +108,15 @@ class MainActivity : AppCompatActivity() {
      * リスト表示
      */
     fun showListFragment() {
-        val adapter = ContributorAdapter(this, listContributor)
-        val listFragment = ContributorListFragment()
-        listFragment.listAdapter = adapter
-        supportFragmentManager.commit {
-            replace(R.id.fragment, listFragment)
+        var fragment = supportFragmentManager.findFragmentByTag(ContributorListFragment::class.simpleName)
+        if (fragment == null) {
+            fragment = ContributorListFragment.create(listContributor)
+            supportFragmentManager.commit {
+                replace(R.id.fragment, fragment, ContributorListFragment::class.simpleName)
+            }
         }
+        if (fragment is ContributorListFragment)
+            fragment.setOnContributorClickListener(this)
     }
 
     /**
@@ -127,6 +137,17 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             dialog.show(supportFragmentManager, CommonDialogFragment::class.simpleName)
+        }
+    }
+
+    override fun onClick(position: Int) {
+        Log.d(TAG,"callback onClick position " + position)
+        val info = listContributor[position]
+        val fragment = ContributorDetailFragment.create(info)
+        supportFragmentManager.commit {
+            replace(R.id.fragment, fragment)
+            setReorderingAllowed(true)
+            addToBackStack(null)
         }
     }
 }

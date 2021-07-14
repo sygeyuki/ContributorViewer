@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">CotributorViewer</string>
     <string name="dialog_message_failed_get_info">情報を取得できませんでした</string>
+    <string name="dialog_message_failed_start_activity">対応するアプリが見つかりませんでした</string>
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">キャンセル</string>
+
+    <string name="detail_info_login_format">(%1$s)</string>
+    <string name="detail_btn_label_github">Github</string>
+    <string name="detail_btn_label_twitter">Twitter</string>
+    <string name="detail_btn_label_blog">Blog</string>
+    <string name="detail_info_value_unknown">不明</string>
+    <string name="detail_info_label_location">住所:</string>
+    <string name="detail_info_label_bio">経歴:</string>
+    <string name="detail_info_label_company">所属:</string>
+    <string name="detail_info_label_repos">レポジトリ数:</string>
+    <string name="detail_info_label_followers">フォロワー数:</string>
+    <string name="detail_info_label_contribute">コントリビュート数:</string>
+    <string name="detail_info_label_update_at">更新日時:</string>
 </resources>
